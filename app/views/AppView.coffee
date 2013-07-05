@@ -10,7 +10,9 @@ class window.AppView extends Backbone.View
     "click .hit-button": -> @model.get('playerHand').hit()
     "click .stand-button": -> @model.get('playerHand').stand()
 
-  initialize: -> @render()
+  initialize: ->
+    @render()
+    @model.on 'winner', ->  if @.get('dealerWon') then alert "Dealer wins :(" else alert "You win :D"
 
   render: ->
     @$el.children().detach()
