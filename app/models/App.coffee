@@ -1,21 +1,15 @@
-#todo: refactor to have a game beneath the outer blackjack model
 class window.App extends Backbone.Model
 
   initialize: ->
-    self = this
-    @set 'deck', deck = new Deck()
-    @set 'playerHand', deck.dealPlayer()
-    @set 'dealerHand', deck.dealDealer()
-    @get('playerHand').on 'stand', -> self.dealerWins()
-    @get('playerHand').on 'bust', -> self.dealerWins(true)
-
-  dealerWins: (busted) ->
-    @get('dealerHand').at(0).flip()
-    dealerScore = @get('dealerHand').scores()[1] or @get('dealerHand').scores()[0]
-    playerScore = if @get('playerHand').scores()[1] <= 21 then @get('playerHand').scores()[1] else @get('playerHand').scores()[0]
-    if not busted
-      while dealerScore < 17
-        @get('dealerHand').hit()
-        dealerScore = @get('dealerHand').scores()[1] or @get('dealerHand').scores()[0]
-    @set 'dealerWon', busted or (dealerScore >= playerScore and dealerScore <= 21)
-    @trigger 'winner', @
+    @on 'winner', ->
+      playerCards = []
+      dealerCards = []
+      i = 0
+      while i < @get('currentGame').get('playerHand').length
+        playerCards.push(app.get('currentGame').get('playerHand').at(i).get('rankName')+'-'+app.get('currentGame').get('playerHand').at(i).get('suitName'))
+        i++
+      i = 0
+      while i < @get('currentGame').get('dealerHand').length
+        dealerCards.push(app.get('currentGame').get('dealerHand').at(i).get('rankName')+'-'+app.get('currentGame').get('dealerHand').at(i).get('suitName'))
+        i++
+      console.log(playerCards, dealerCards)
