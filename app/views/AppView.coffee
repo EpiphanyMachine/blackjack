@@ -12,7 +12,9 @@ class window.AppView extends Backbone.View
 
   initialize: ->
     @render()
-    @model.on 'winner', ->  if @.get('dealerWon') then alert "Dealer wins :(" else alert "You win :D"
+    @model.on 'winner', ->
+      if @get('dealerWon') then alert "Dealer wins :(" else alert "You win :D"
+      window.location.reload()
 
   render: ->
     @$el.children().detach()

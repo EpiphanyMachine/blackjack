@@ -2,7 +2,7 @@ class window.CardView extends Backbone.View
 
   className: 'card'
 
-  template: _.template '<%= rankName %> of <%= suitName %>'
+  template: _.template '<div class="cardView card-<%= rankName %>-<%= suitName %>"></>'
 
   initialize: ->
     @model.on 'change', => @render
@@ -11,4 +11,4 @@ class window.CardView extends Backbone.View
   render: ->
     @$el.children().detach().end().html
     @$el.html @template @model.attributes
-    @$el.addClass 'covered' unless @model.get 'revealed'
+    @$el.find('.cardView').removeClass().addClass 'cardView' unless @model.get 'revealed'
